@@ -25,10 +25,14 @@ class App extends Component {
   componentDidMount() {
     Service.get('all/')
       .then(response => {
-          console.log(response);
+        // console.log(response);
+        if (response.status === 200) {
+          console.log(response.data);
+          this.state = response.data;
+        }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       )
   }
@@ -36,13 +40,49 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">.</h1>
-        </header>
-        <p className="App-intro">
-          .
-        </p>
+
+        <nav className="navbar navbar-dark bg-dark mb-4">
+          <a className="navbar-brand" href="#">CRUD ReactJs y Nodejs con Mongodb</a>
+        </nav>
+
+
+        <div className="container">
+
+    <div className="row">
+      <div className="col-md-5">
+        <div className="card">
+          <div className="card-body">
+
+          </div>
+        </div>
+      </div>
+
+      <div className="col-md-7">
+        <table className="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Operations</th>
+            </tr>
+          </thead>
+
+          <tbody>
+              
+             
+          </tbody>
+
+        </table>
+  
+      </div>
+    </div>
+  </div>
+
+
+
+
+
       </div>
     );
   }
