@@ -13,14 +13,20 @@ class App extends Component {
     super(); //hereda todas las funcionalidades de react
 
     this.state = {
-      posts: []
+      posts: [{
+        title: '',
+        description: '',
+        status: false,
+      }]
     }
+
+    this.addValorInput = this.addValorInput.bind(this);
+
   }
 
   componentDidMount() {
     Service.get('all/')
       .then(response => {
-        // console.log(response);
         if (response.status === 200) {
           console.log(response.data);
           this.setState({ posts: response.data })
@@ -30,6 +36,17 @@ class App extends Component {
           console.log(error);
         }
       )
+  }
+
+  addValorInput(e){
+    const { value , name } = e.target;
+    console.log(value);
+    console.log(name);
+    this.setState({
+      [name]: value
+    });
+
+    console.log(this.state.posts);
   }
 
   render() {
@@ -47,7 +64,17 @@ class App extends Component {
       <div className="col-md-5">
         <div className="card">
           <div className="card-body">
-
+            <form action="/add" method="post">
+              <div className="form-group">
+                <input className="form-control" type="text" id="title" name="title" placeholder="Title" onChange={this.addValorInput}/>
+              </div>
+              <div className="form-group">
+                <textarea className = "form-control"name = "description" cols = "80" placeholder="Add a Description" onChange={this.addValorInput}></textarea>
+              </div>
+              <button className="btn btn-primary" type="submit">
+                Add
+              </button>
+            </form>
           </div>
         </div>
       </div>
