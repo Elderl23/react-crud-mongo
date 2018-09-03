@@ -13,12 +13,7 @@ class App extends Component {
     super(); //hereda todas las funcionalidades de react
 
     this.state = {
-      title: 'Prueba1 title',
-      description: 'Prueba1 descripcion',
-      status: {
-        type: false,
-        default: false
-      }
+      posts: []
     }
   }
 
@@ -28,11 +23,11 @@ class App extends Component {
         // console.log(response);
         if (response.status === 200) {
           console.log(response.data);
-          this.state = response.data;
+          this.setState({ posts: response.data })
         }
         },
         error => {
-          // console.log(error);
+          console.log(error);
         }
       )
   }
@@ -70,7 +65,19 @@ class App extends Component {
 
           <tbody>
               
-             
+             {this.state.posts.map(function(obj, index){
+                return (
+                    <tr key={ index++ }> 
+                      <td>{ index }</td>
+                      <td>{ obj.title }</td>
+                      <td>{ obj.description }</td>
+                      <td>
+                        <a className={(obj.status ? 'btn btn-success' : 'btn btn-dark')}> Done </a>
+                      </td>
+                    </tr>
+                );
+              })} 
+              
           </tbody>
 
         </table>
