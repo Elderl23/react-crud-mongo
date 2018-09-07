@@ -1,6 +1,7 @@
 
 
 import React, { Component } from 'react';
+import { ClipLoader } from 'react-spinners';
 import { Service } from '../_services';
 
 class Taskform extends Component {
@@ -14,6 +15,7 @@ class Taskform extends Component {
       status: false,
       isEdit: false,
       idTask:'',
+      loading: false
     };
 
     this.handleInput = this.handleInput.bind(this);
@@ -50,13 +52,14 @@ class Taskform extends Component {
 
   getByIdTask(id){
     console.log(this.state.isEdit);
-    
+    this.setState({ loading: true});
     Service.get('selectTask/'+ id +'/')
       .then(response => {
           if (response.status === 200) {
             this.setState({
               title: response.data.title,
               description: response.data.description,
+              loading: false,
             });
           }
         },
@@ -81,7 +84,9 @@ class Taskform extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state.isEdit);
+    this.setState({
+      loading: true
+    });
 
     if (!this.state.isEdit) {
       Service.post('addTask/', this.state)
@@ -89,6 +94,9 @@ class Taskform extends Component {
             if (response.status === 200) {
               this.props.onAddTodo(response.data);
               this.resetSetState();
+              this.setState({
+                loading: false
+              });
             }
           },
           error => {
@@ -102,11 +110,15 @@ class Taskform extends Component {
               this.props.onAddTodo(response.data);
               this.setState({
                 isEdit: false,
+                loading: false
               });
               this.resetSetState();
             }
           },
           error => {
+            this.setState({
+              loading: false
+            });
             console.log(error);
           }
       );
@@ -145,6 +157,7 @@ class Taskform extends Component {
             </form>
           </div>
         </div>
+        { this.state.loading ? <div className='sweet-loading sweet-loading'><ClipLoader className = 'override' sizeUnit={"px"} size={150} color={'#123abc'} loading={this.state.loading}/></div> : null}
       </div>
     );
   }
