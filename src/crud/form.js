@@ -14,7 +14,6 @@ class Taskform extends Component {
       status: false,
       isEdit: false,
       idTask:'',
-      componentWillReceivePropsasynchronously: false
     };
 
     this.handleInput = this.handleInput.bind(this);
@@ -30,13 +29,13 @@ class Taskform extends Component {
 
     
     
-    if (this.state.componentWillReceivePropsasynchronously) {
+    if (!this.state.status && props.isShow) {
       console.log("entro");
       
       this.setState({
         isEdit: props.isShow,
         idTask: props.isTask,
-        componentWillReceivePropsasynchronously: true
+        status: true
       }, () => {
         console.log(this.state);
         if (this.state.isEdit) {
@@ -123,7 +122,6 @@ class Taskform extends Component {
       status: false,
       isEdit: false,
       idTask: '',
-      componentWillReceivePropsasynchronously:false
     });
 
     console.log(this.state);
